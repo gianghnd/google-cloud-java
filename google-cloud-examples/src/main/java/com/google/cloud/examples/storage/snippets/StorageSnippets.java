@@ -57,6 +57,7 @@ import com.google.cloud.storage.StorageBatchResult;
 import com.google.cloud.storage.StorageClass;
 import com.google.cloud.storage.StorageException;
 import com.google.cloud.storage.StorageOptions;
+import com.google.api.client.util.Data;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
@@ -1111,6 +1112,64 @@ public class StorageSnippets {
 
     System.out.println("Default KMS Key Name: " + bucket.getDefaultKmsKeyName());
     // [END storage_set_bucket_default_kms_key]
+    return bucket;
+  }
+
+  /**
+   * Example of setting a retention policy on a bucket
+   */
+  public Bucket setRetentionPolicy(String bucketName, Long retentionPeriod) throws StorageException {
+    // [START storage_set_retention_policy]
+    // Instantiate a Google Cloud Storage client
+    Storage storage = StorageOptions.getDefaultInstance().getService();
+
+    // The name of the existing bucket to set a retention policy for, e.g. "my-bucket"
+    // String bucketName = "my-bucket";
+
+    // The retetion period for objects in bucket
+    // 1 hour in seconds
+    // Long retentionPeriod = 3600L;
+
+    Bucket bucket = storage.get(bucketName);
+    Bucket update_bucket = storage.update(bucket.toBuilder()
+        .setRetentionPeriod(retentionPeriod)
+        .build());
+
+    System.out.println("Retention period for " + bucketName + " is now " + update_bucket.getRetentionPeriod());
+    // [END storage_set_retention_policy]
+    return update_bucket;
+  }
+
+  /**
+   * Example of removing a retention policy on a bucket
+   */
+  public Bucket removeRetentionPolicy(String bucketName) throws StorageException {
+    // [START storage_remove_retention_policy]
+    // Instantiate a Google Cloud Storage client
+    Storage storage = StorageOptions.getDefaultInstance().getService();
+
+    // The name of the existing bucket to remove a retention policy from, e.g. "my-bucket"
+    // String bucketName = "my-bucket";
+    Boolean nullBoolean = Data.<Boolean>nullOf(Boolean.class);
+    if(nullBoolean) {
+      System.out.println("false???");
+    } else {
+      System.out.println("?osidfjjosid");
+    }
+
+    Bucket bucket = storage.get(bucketName);
+//    if (bucket.retentionPolicyIsLocked() != null) {
+//      System.out.println("Unable to remove retention period as retention policy is locked.");
+//      return null;
+//    }
+
+    Bucket update_bucket = bucket.toBuilder()
+        .setRetentionPeriod(1L)
+        .build().update();
+    update_bucket.toBuilder().setRetentionPeriod(null).build().update();
+
+    System.out.println("Retention period for " + bucketName + " has been cleared");
+    // [END storage_remove_retention_policy]
     return bucket;
   }
 }

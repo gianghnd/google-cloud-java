@@ -461,4 +461,10 @@ public class ITStorageSnippets {
     // Remove default key
     storageSnippets.setDefaultKmsKey(BUCKET, null);
   }
+
+  @Test
+  public void testRemoveRetentionPolicy() {
+    Bucket bucket = storageSnippets.removeRetentionPolicy(BUCKET);
+    assertNull(bucket.getRetentionPeriod());
+  }
 }
