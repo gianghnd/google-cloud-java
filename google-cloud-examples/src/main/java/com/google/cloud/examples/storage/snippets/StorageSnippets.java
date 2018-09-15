@@ -1150,18 +1150,12 @@ public class StorageSnippets {
 
     // The name of the existing bucket to remove a retention policy from, e.g. "my-bucket"
     // String bucketName = "my-bucket";
-    Boolean nullBoolean = Data.<Boolean>nullOf(Boolean.class);
-    if(nullBoolean) {
-      System.out.println("false???");
-    } else {
-      System.out.println("?osidfjjosid");
-    }
 
     Bucket bucket = storage.get(bucketName);
-//    if (bucket.retentionPolicyIsLocked() != null) {
-//      System.out.println("Unable to remove retention period as retention policy is locked.");
-//      return null;
-//    }
+    if (bucket.retentionPolicyIsLocked()) {
+      System.out.println("Unable to remove retention period as retention policy is locked.");
+      return null;
+    }
 
     Bucket update_bucket = bucket.toBuilder()
         .setRetentionPeriod(1L)

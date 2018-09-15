@@ -559,8 +559,8 @@ public class BlobInfo implements Serializable {
     isDirectory = firstNonNull(builder.isDirectory, Boolean.FALSE);
     storageClass = builder.storageClass;
     kmsKeyName = builder.kmsKeyName;
-    eventBasedHold = builder.eventBasedHold;
-    temporaryHold = builder.temporaryHold;
+    eventBasedHold = firstNonNull(builder.eventBasedHold, Boolean.FALSE);
+    temporaryHold = firstNonNull(builder.temporaryHold, Boolean.FALSE);
     retentionExpirationTime = builder.retentionExpirationTime;
   }
 

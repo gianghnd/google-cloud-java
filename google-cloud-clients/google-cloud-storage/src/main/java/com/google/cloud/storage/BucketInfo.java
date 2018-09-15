@@ -841,7 +841,9 @@ public class BucketInfo implements Serializable {
   /**
    * Returns the default event based hold value used for inserted objects in this bucket.
    */
-  public Boolean getDefaultEventBasedHold() { return defaultEventBasedHold; }
+  public Boolean getDefaultEventBasedHold() {
+    return Data.isNull(defaultEventBasedHold) ? null : defaultEventBasedHold;
+  }
 
   /**
    * Returns the retention effective time a policy took effect if a retention policy is defined.
