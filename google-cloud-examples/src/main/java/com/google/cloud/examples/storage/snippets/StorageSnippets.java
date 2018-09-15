@@ -1115,10 +1115,9 @@ public class StorageSnippets {
     return bucket;
   }
 
-  /**
-   * Example of setting a retention policy on a bucket
-   */
-  public Bucket setRetentionPolicy(String bucketName, Long retentionPeriod) throws StorageException {
+  /** Example of setting a retention policy on a bucket */
+  public Bucket setRetentionPolicy(String bucketName, Long retentionPeriod)
+      throws StorageException {
     // [START storage_set_retention_policy]
     // Instantiate a Google Cloud Storage client
     Storage storage = StorageOptions.getDefaultInstance().getService();
@@ -1131,18 +1130,16 @@ public class StorageSnippets {
     // Long retentionPeriod = 3600L;
 
     Bucket bucket = storage.get(bucketName);
-    Bucket update_bucket = storage.update(bucket.toBuilder()
-        .setRetentionPeriod(retentionPeriod)
-        .build());
+    Bucket update_bucket =
+        storage.update(bucket.toBuilder().setRetentionPeriod(retentionPeriod).build());
 
-    System.out.println("Retention period for " + bucketName + " is now " + update_bucket.getRetentionPeriod());
+    System.out.println(
+        "Retention period for " + bucketName + " is now " + update_bucket.getRetentionPeriod());
     // [END storage_set_retention_policy]
     return update_bucket;
   }
 
-  /**
-   * Example of removing a retention policy on a bucket
-   */
+  /** Example of removing a retention policy on a bucket */
   public Bucket removeRetentionPolicy(String bucketName) throws StorageException {
     // [START storage_remove_retention_policy]
     // Instantiate a Google Cloud Storage client
@@ -1154,15 +1151,12 @@ public class StorageSnippets {
     Bucket bucket = storage.get(bucketName);
     if (bucket.retentionPolicyIsLocked()) {
       System.out.println("Unable to remove retention period as retention policy is locked.");
-      return null;
+      return bucket;
     }
 
-    Bucket update_bucket = bucket.toBuilder()
-        .setRetentionPeriod(1L)
-        .build().update();
-    update_bucket.toBuilder().setRetentionPeriod(null).build().update();
+    Bucket update_bucket = bucket.toBuilder().setRetentionPeriod(null).build().update();
 
-    System.out.println("Retention period for " + bucketName + " has been cleared");
+    System.out.println("Retention period for " + bucketName + " has been removed");
     // [END storage_remove_retention_policy]
     return bucket;
   }
